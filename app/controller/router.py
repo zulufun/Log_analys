@@ -143,6 +143,7 @@ class Router(QMainWindow):
             self.stack.slide_to_index(0)
             self.highlight_current_page(0)
         elif page_name == "upload":
+            self.upload_page.reset_ui()  # Reset UI khi chuyển sang trang upload
             self.stack.slide_to_index(1)
             self.highlight_current_page(1)
         elif page_name == "result":

@@ -360,11 +360,22 @@ class UploadPage(QWidget):
         QMessageBox.critical(self, "Lỗi phân tích", f"Có lỗi xảy ra:\n{error_msg}")
 
     def reset_ui(self):
-        """Reset UI về trạng thái ban đầu"""
+        """Reset UI về trạng thái ban đầu và dừng thread nếu còn chạy"""
         self.selected_path = None
         self.raw_data = None
         self.file_info_frame.setVisible(False)
         self.preview_group.setVisible(False)
         self.progress_frame.setVisible(False)
         self.btn_analyze.setEnabled(False)
+        self.btn_browse.setEnabled(True)
         self.txt_preview.clear()
+        self.lbl_file_path.setText("")
+        self.lbl_file_size.setText("")
+        self.txt_preview.setText("")
+        self.lbl_progress.setText("")
+        if hasattr(self, 'analysis_thread') and self.analysis_thread is not None:
+            try:
+                self.analysis_thread.terminate()
+            except Exception:
+                pass
+            self.analysis_thread = None
